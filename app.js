@@ -1,17 +1,17 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import {
   getFirestore,
-  collection,
   doc,
   setDoc,
   getDocs,
+  collection,
   addDoc,
   onSnapshot,
   query,
   orderBy
 } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-/* 🔥 Firebase Config (همون خودت) */
+/* 🔥 Firebase Config تو */
 const firebaseConfig = {
   apiKey: "AIzaSyAXrgdDlLidZIlEirrXlMJl4iCTnwnFQV0",
   authDomain: "site-bros-chat3.firebaseapp.com",
@@ -28,8 +28,12 @@ const db = getFirestore(app);
 let currentUser = "";
 let currentChat = "";
 
+/* عناصر */
+const loginBtn = document.getElementById("loginBtn");
+const sendBtn = document.getElementById("sendBtn");
+
 /* LOGIN */
-window.login = async () => {
+loginBtn.addEventListener("click", async () => {
   const name = document.getElementById("usernameInput").value.trim();
   if(!name) return;
 
@@ -39,13 +43,11 @@ window.login = async () => {
     name:name
   });
 
-  localStorage.setItem("user",name);
-
   document.getElementById("loginBox").classList.add("hidden");
   document.getElementById("chatBox").classList.remove("hidden");
 
   loadUsers();
-};
+});
 
 /* LOAD USERS */
 async function loadUsers(){
@@ -70,20 +72,18 @@ function getChatId(u1,u2){
 }
 
 /* OPEN CHAT */
-window.openChat = (user)=>{
+function openChat(user){
   currentChat = getChatId(currentUser,user);
 
   document.getElementById("chatHeader").innerText =
     "چت با " + user;
 
   listenMessages();
-};
+}
 
-/* SEND MESSAGE */
-window.sendMessage = async ()=>{
-
-  const input = document.getElementById("msgInput");
-  const text = input.value.trim();
+/* SEND */
+sendBtn.addEventListener("click", async ()=>{
+  const text = document.getElementById("msgInput").value.trim();
   if(!text || !currentChat) return;
 
   await addDoc(
@@ -95,10 +95,10 @@ window.sendMessage = async ()=>{
     }
   );
 
-  input.value="";
-};
+  document.getElementById("msgInput").value = "";
+});
 
-/* LISTEN MESSAGES REALTIME */
+/* REALTIME */
 function listenMessages(){
 
   const q = query(
@@ -113,7 +113,7 @@ function listenMessages(){
     snap.forEach(m=>{
       const div = document.createElement("div");
       div.className = "msg";
-      div.innerText = `${m.data().sender}: ${m.data().text}`;
+      div.innerText = m.data().sender + ": " + m.data().text;
       box.appendChild(div);
     });
   });
