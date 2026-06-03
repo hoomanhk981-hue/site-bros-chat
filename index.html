@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Site Bros Chat 3</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="loginBox">
+  <h1>Site Bros Chat 3</h1>
+  <input id="usernameInput" placeholder="نام کاربری دلخواه..." />
+  <button onclick="login()">ورود</button>
+</div>
+
+<!-- CHAT -->
+<div id="chatBox" class="hidden">
+
+  <div class="sidebar">
+    <h3>کاربران</h3>
+    <div id="usersList"></div>
+  </div>
+
+  <div class="chat">
+
+    <div id="chatHeader">چت</div>
+
+    <div id="messages"></div>
+
+    <div class="inputBox">
+      <input id="msgInput" placeholder="پیام..." />
+      <button onclick="sendMessage()">ارسال</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
